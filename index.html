@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sports AI Chest Strap Dashboard</title>
+  <style>
+    body {
+      background-color: #0b0b0f;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #c084fc;
+      font-size: 2rem;
+    }
+    .status-box {
+      margin-top: 30px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .safe {
+      background-color: #10b981;
+    }
+    .danger {
+      background-color: #f59e0b;
+    }
+    .stop {
+      background-color: #ef4444;
+    }
+    input {
+      padding: 10px;
+      margin: 5px;
+      width: 100px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏃‍♀️ Sports AI – Chest Strap Prototype</h1>
+  <div>
+    <label>Heart Rate (bpm):</label><br>
+    <input type="number" id="heartRate" disabled><br>
+    <label>SpO₂ (%):</label><br>
+    <input type="number" id="spo2" disabled><br>
+    <label>Motion Level (0-2):</label><br>
+    <input type="number" id="motion" disabled><br>
+  </div>
+  <div id="statusBox" class="status-box">
+    🧠 Waiting for Data...
+  </div>
+  <script>
+    function generateRandomData() {
+      const heartRate = Math.floor(Math.random() * 60) + 90;
+      const spo2 = Math.floor(Math.random() * 11) + 89;
+      const motion = Math.floor(Math.random() * 3);
+      document.getElementById("heartRate").value = heartRate;
+      document.getElementById("spo2").value = spo2;
+      document.getElementById("motion").value = motion;
+      checkStatus(heartRate, spo2, motion);
+    }
+    function checkStatus(hr, spo2, motion) {
+      const box = document.getElementById("statusBox");
+      if (hr > 150 || spo2 < 90 || motion === 2) {
+        box.innerHTML = "🛑 STOP – Athlete at Risk!";
+        box.className = "status-box stop";
+      } else if ((hr > 120 && spo2 < 95) || (motion === 1 && hr > 130)) {
+        box.innerHTML = "⚠️ Minimal Danger – Monitor Closely";
+        box.className = "status-box danger";
+      } else {
+        box.innerHTML = "✅ Safe – Athlete Can Continue";
+        box.className = "status-box safe";
+      }
+    }
+    setInterval(generateRandomData, 2500);
+  </script>
+</body>
+</html>
